@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 # Google Maps API key (should be stored securely in production)
-API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY", "your_api_key_here")
+API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY", "AIzaSyBZvdBMqfJloSgF-sXoRtGoPedzuKLHWJ4")
 
 # Initialize the Google Maps client
 gmaps = googlemaps.Client(key=API_KEY)
