@@ -61,8 +61,12 @@ class DQNModel(nn.Module):
         q_values = self.forward(state)
         
         if valid_actions_mask is not None:
+            # Make sure the mask has the same dimensions as q_values
+            if q_values.dim() != valid_actions_mask.dim():
+                valid_actions_mask = valid_actions_mask.unsqueeze(0)
+            
             # Set Q-values of invalid actions to a very negative value
             invalid_mask = ~valid_actions_mask
-            q_values[invalid_mask] = float('-inf')
+            q_values = q_values.masked_fill(invalid_mask, float('-inf'))
         
         return q_values
