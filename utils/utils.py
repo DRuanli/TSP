@@ -204,12 +204,13 @@ def visualize_traffic(traffic_matrix, locations, title="Traffic Conditions"):
     # Get node positions
     pos = nx.get_node_attributes(G, 'pos')
     
-    # Plot
-    plt.figure(figsize=(12, 10))
+    # Create figure and axis explicitly
+    fig, ax = plt.subplots(figsize=(12, 10))
     
     # Draw nodes
     nx.draw_networkx_nodes(G, pos, node_size=200, 
-                          node_color=['red' if i == 0 else 'lightblue' for i in range(len(locations))])
+                          node_color=['red' if i == 0 else 'lightblue' for i in range(len(locations))],
+                          ax=ax)
     
     # Draw edges with traffic-based coloring
     edge_colors = [G[u][v]['weight'] for u, v in G.edges()]
@@ -231,20 +232,21 @@ def visualize_traffic(traffic_matrix, locations, title="Traffic Conditions"):
         width=2.0,
         arrowsize=10,
         arrowstyle='-|>',
-        connectionstyle='arc3,rad=0.1'
+        connectionstyle='arc3,rad=0.1',
+        ax=ax
     )
     
     # Draw labels
-    nx.draw_networkx_labels(G, pos, font_size=12)
+    nx.draw_networkx_labels(G, pos, font_size=12, ax=ax)
     
     # Create a colorbar
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     sm.set_array([])
-    plt.colorbar(sm, label='Traffic Multiplier', shrink=0.8)
+    fig.colorbar(sm, ax=ax, label='Traffic Multiplier', shrink=0.8)
     
     # Add title and adjust layout
-    plt.title(title)
-    plt.axis('off')
+    ax.set_title(title)
+    ax.axis('off')
     plt.tight_layout()
     
     return plt
